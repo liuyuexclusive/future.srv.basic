@@ -7,5 +7,6 @@ platform:
 
 pipeline:
   srv.basic.deploy:
+     image: plugins/docker
      commands:
        - pwd
