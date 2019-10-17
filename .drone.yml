@@ -20,8 +20,8 @@ pipeline:
     dockerfile: ./Dockerfile
     # registry: https://index.docker.io/v1/
     repo: registry.cn-shenzhen.aliyuncs.com/liuyuexclusive/future.srv.basic
-    username: "liuyuexclusive"
-    password: "Contemplator65"
+    username: "liuyuexclusive@hotmail.com"
+    password: "Bastard123"
     tags:
       - latest   
 
