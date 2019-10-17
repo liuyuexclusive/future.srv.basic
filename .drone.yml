@@ -6,6 +6,6 @@ platform:
   arch: amd64
 
 pipeline:
-  deploy:
+  srv.basic.deploy:
      commands:
        - pwd
