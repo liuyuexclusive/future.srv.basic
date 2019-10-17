@@ -1,0 +1,4 @@
+pipeline:
+  deploy:
+     commands:
+       - pwd
