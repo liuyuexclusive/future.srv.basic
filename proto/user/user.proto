@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package go.micro.srv.basic.user;
+
+service User {
+	rpc Auth(AuthRequest) returns (AuthResponse) {}
+	rpc Validate(ValidateRequest) returns (ValidateResponse) {}
+	rpc Get(GetRequest) returns (GetResponse) {}
+}
+
+message AuthRequest{
+	string id = 1;
+	string key = 2;	
+}
+
+message AuthResponse{
+	string token =1;
+}
+
+message ValidateRequest{
+	string token =1;
+}
+
+message ValidateResponse{
+	string name=1;
+}
+
+message GetRequest{
+	string name=1;
+}
+
+message GetResponse{
+	string name=1;
+	repeated string access=2;
+	string avatar=3;
+}

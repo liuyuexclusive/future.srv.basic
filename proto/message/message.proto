@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package go.micro.srv.basic.message;
+
+service Message {
+    rpc Send(SendRequest) returns (Response) {}
+	rpc ChangeStatus(ChangeStatusRequest) returns (Response) {}
+    rpc Init(InitRequest) returns(InitResponse){}
+    rpc Get(GetRequest) returns(GetResponse){}
+}
+
+message Response{
+
+}
+
+message SendRequest{
+	string from=1;
+	repeated string to_list=2;
+	string title=3;
+	string content=4;
+}
+
+
+message ChangeStatusRequest{
+	enum Status{
+		Unread =0;
+		Readed =10;
+		Trash =20;
+	}
+	Status status=1;
+	string to=2;
+	int64 id=3;
+}
+
+message InitRequest{
+	string to =1;
+}
+
+message InitResponse{
+	message Message{
+		int64 id =1;
+		string from=2;
+		string title=3;
+	}
+	string to =1;
+	repeated Message Unread=2;
+	repeated Message Readed=3;
+	repeated Message Trash=4;
+}
+
+message GetRequest{
+    int64 id=1;
+}
+
+message GetResponse{
+    int64 id =1;
+    string from=2;
+    string title=3;
+    string content=4;
+}

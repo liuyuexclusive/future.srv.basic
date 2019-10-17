@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package go.micro.srv.basic.role;
+
+service Role {
+	rpc Get(GetRequest) returns (GetResponse) {}
+	rpc AddOrUpdate(RoleAddOrUpdateRequest) returns (Response) {}
+}
+
+message Response{
+
+}
+
+message GetRequest{
+	string name=1;
+}
+
+message GetResponse{
+	string name=1;
+	repeated string access=2;
+	string avatar=3;
+}
+
+message RoleAddOrUpdateRequest{
+	int64 id = 1;
+	string name=2;
+}

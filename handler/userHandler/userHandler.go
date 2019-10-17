@@ -1,0 +1,111 @@
+package userHandler
+
+import (
+	"context"
+	"crypto/md5"
+	"encoding/hex"
+	"errors"
+	"github.com/liuyuexclusive/future.srv.basic/model"
+	user "github.com/liuyuexclusive/future.srv.basic/proto/user"
+	"github.com/liuyuexclusive/utils/dbutil"
+	"strings"
+	"time"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/jinzhu/gorm"
+)
+
+type Handler struct {
+	user.UserHandler
+}
+
+const (
+	mySigningKey = "sadhasldjkko126312jljdkhfasu0"
+)
+
+//Md5 生成32位md5字串
+func Md5(s string, salt string) string {
+	h := md5.New()
+	h.Write([]byte(s + salt))
+	return hex.EncodeToString(h.Sum(nil))
+}
+
+func (e *Handler) Auth(ctx context.Context, req *user.AuthRequest, rsp *user.AuthResponse) error {
+	mySigningKey := []byte(mySigningKey)
+
+	if req.Id == "" {
+		return errors.New("无效的id")
+	}
+
+	var user model.User
+
+	err := dbutil.Open(func(db *gorm.DB) error {
+		db.Where("name=?", req.Id).First(&user)
+		return nil
+	})
+
+	if err != nil {
+		return err
+	}
+
+	if user.ID == 0 {
+		return errors.New("无效的登陆名")
+	}
+
+	if req.Key == "" {
+		return errors.New("请输入密码")
+	}
+
+	pwd := Md5(req.Key, user.Salt)
+
+	if pwd != user.Pwd {
+		return errors.New("密码错误")
+	}
+
+	// Create the Claims
+	claims := &jwt.StandardClaims{
+		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+		Issuer:    "test",
+		Id:        req.Id,
+	}
+
+	rsp.Token, err = jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString(mySigningKey)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (e *Handler) Validate(ctx context.Context, req *user.ValidateRequest, rsp *user.ValidateResponse) error {
+	var claims jwt.MapClaims
+	token, err := jwt.ParseWithClaims(req.Token, &claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(mySigningKey), nil
+	})
+
+	if err != nil {
+		return err
+	}
+
+	if !token.Valid {
+		return errors.New("无效token")
+	}
+
+	rsp.Name = claims["jti"].(string)
+	return nil
+}
+
+func (e *Handler) Get(ctx context.Context, req *user.GetRequest, rsp *user.GetResponse) error {
+	return dbutil.Open(func(db *gorm.DB) error {
+		var user model.User
+		db.Where("name=?", req.Name).First(&user)
+		if user.ID == 0 {
+			return errors.New("找不到用户 " + req.Name)
+		}
+		rsp.Name = user.Name
+		rsp.Access = strings.Split(user.Access, ",")
+		rsp.Avatar = user.Avatar
+		return nil
+	})
+}
