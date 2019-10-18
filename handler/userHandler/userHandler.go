@@ -5,11 +5,12 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"errors"
+	"strings"
+	"time"
+
 	"github.com/liuyuexclusive/future.srv.basic/model"
 	user "github.com/liuyuexclusive/future.srv.basic/proto/user"
 	"github.com/liuyuexclusive/utils/dbutil"
-	"strings"
-	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
@@ -30,51 +31,60 @@ func Md5(s string, salt string) string {
 	return hex.EncodeToString(h.Sum(nil))
 }
 
-func (e *Handler) Auth(ctx context.Context, req *user.AuthRequest, rsp *user.AuthResponse) error {
+func auth(id, key string) (string, error) {
 	mySigningKey := []byte(mySigningKey)
 
-	if req.Id == "" {
-		return errors.New("无效的id")
+	if id == "" {
+		return "", errors.New("无效的id")
 	}
 
 	var user model.User
 
 	err := dbutil.Open(func(db *gorm.DB) error {
-		db.Where("name=?", req.Id).First(&user)
+		db.Where("name=?", key).First(&user)
 		return nil
 	})
 
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	if user.ID == 0 {
-		return errors.New("无效的登陆名")
+		return "", errors.New("无效的登陆名")
 	}
 
-	if req.Key == "" {
-		return errors.New("请输入密码")
+	if key == "" {
+		return "", errors.New("请输入密码")
 	}
 
-	pwd := Md5(req.Key, user.Salt)
+	pwd := Md5(key, user.Salt)
 
 	if pwd != user.Pwd {
-		return errors.New("密码错误")
+		return "", errors.New("密码错误")
 	}
 
 	// Create the Claims
 	claims := &jwt.StandardClaims{
 		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 		Issuer:    "test",
-		Id:        req.Id,
+		Id:        id,
 	}
 
-	rsp.Token, err = jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString(mySigningKey)
+	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString(mySigningKey)
 
+	if err != nil {
+		return "", err
+	}
+
+	return token, nil
+}
+
+func (e *Handler) Auth(ctx context.Context, req *user.AuthRequest, rsp *user.AuthResponse) error {
+	token, err := auth(req.Id, req.Key)
 	if err != nil {
 		return err
 	}
-
+	rsp.Token = token
 	return nil
 }
 

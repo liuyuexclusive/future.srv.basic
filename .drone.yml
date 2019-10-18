@@ -37,4 +37,5 @@ pipeline:
       - export PATH=/usr/local/bin:$PATH
       - docker stop future.srv.basic_1
       - docker rm future.srv.basic_1
+      - docker login registry.cn-shenzhen.aliyuncs.com -u liuyuexclusive@hotmail.com -p a1234567
       - docker run -d --net=utils_default --name=future.srv.basic_1 registry.cn-shenzhen.aliyuncs.com/liuyuexclusive/future.srv.basic:latest
