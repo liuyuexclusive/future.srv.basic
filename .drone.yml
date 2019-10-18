@@ -13,6 +13,7 @@ pipeline:
       GOPROXY: "https://goproxy.io"
       CGO_ENABLED: 0
     commands:
+      - go test
       - go build
 
   publish:
@@ -21,7 +22,7 @@ pipeline:
     registry: registry.cn-shenzhen.aliyuncs.com
     repo: registry.cn-shenzhen.aliyuncs.com/liuyuexclusive/future.srv.basic
     username: "liuyuexclusive@hotmail.com"
-    password: "Bastard123"
+    password: "a1234567"
     tags:
       - latest   
 
