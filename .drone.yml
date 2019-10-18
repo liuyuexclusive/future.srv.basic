@@ -13,7 +13,7 @@ pipeline:
       GOPROXY: "https://goproxy.io"
       CGO_ENABLED: 0
     commands:
-      - go test
+      - go test ./...
       - go build
 
   publish:
