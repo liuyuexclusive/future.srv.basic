@@ -26,16 +26,16 @@ pipeline:
     tags:
       - latest   
 
-  deploy:
-    image: appleboy/drone-ssh # 用于连接服务器
-    host: 
-      - 172.16.60.48
-    port: 22
-    username: liuyu
-    password: 880718
-    script:
-      - export PATH=/usr/local/bin:$PATH
-      - docker stop future.srv.basic_1
-      - docker rm future.srv.basic_1
-      - docker login registry.cn-shenzhen.aliyuncs.com -u liuyuexclusive@hotmail.com -p a1234567
-      - docker run -d --net=utils_default --name=future.srv.basic_1 registry.cn-shenzhen.aliyuncs.com/liuyuexclusive/future.srv.basic:latest
+  # deploy:
+  #   image: appleboy/drone-ssh # 用于连接服务器
+  #   host: 
+  #     - 172.16.60.48
+  #   port: 22
+  #   username: liuyu
+  #   password: 880718
+  #   script:
+  #     - export PATH=/usr/local/bin:$PATH
+  #     - docker stop future.srv.basic_1
+  #     - docker rm future.srv.basic_1
+  #     - docker login registry.cn-shenzhen.aliyuncs.com -u liuyuexclusive@hotmail.com -p a1234567
+  #     - docker run -d --net=utils_default --name=future.srv.basic_1 registry.cn-shenzhen.aliyuncs.com/liuyuexclusive/future.srv.basic:latest

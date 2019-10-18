@@ -41,7 +41,7 @@ func auth(id, key string) (string, error) {
 	var user model.User
 
 	err := dbutil.Open(func(db *gorm.DB) error {
-		db.Where("name=?", key).First(&user)
+		db.Where("name=?", id).First(&user)
 		return nil
 	})
 
