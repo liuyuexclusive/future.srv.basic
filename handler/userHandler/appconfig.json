@@ -1,9 +1,0 @@
-{
-    "ConsulAddress": "172.16.60.48:8500",
-    "NatsAddress": "172.16.60.48:4222",
-    "ElasticURL": "http://172.16.60.48:9200",
-    "HostIP": "172.16.60.48",
-    "APIPort": "9000",
-    "ConnStr": "root:123456@tcp(172.16.60.48:3306)/future?charset=utf8&parseTime=True&loc=Local",
-    "RedisAddress": "172.16.60.48:6379"
-}
