@@ -11,6 +11,7 @@ import (
 	"github.com/liuyuexclusive/future.srv.basic/model"
 	user "github.com/liuyuexclusive/future.srv.basic/proto/user"
 	"github.com/liuyuexclusive/utils/dbutil"
+	"github.com/sirupsen/logrus"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
@@ -60,6 +61,7 @@ func auth(id, key string) (string, error) {
 	pwd := encrypt(key, user.Salt)
 
 	if pwd != user.Pwd {
+		logrus.Error("密码错误:" + pwd)
 		return "", errors.New("密码错误")
 	}
 
