@@ -2,7 +2,7 @@ package userHandler
 
 import (
 	"context"
-	"crypto/md5"
+	"crypto/sha256"
 	"encoding/hex"
 	"errors"
 	"strings"
@@ -25,8 +25,8 @@ const (
 )
 
 //Md5 生成32位md5字串
-func Md5(s string, salt string) string {
-	h := md5.New()
+func encrypt(s string, salt string) string {
+	h := sha256.New()
 	h.Write([]byte(s + salt))
 	return hex.EncodeToString(h.Sum(nil))
 }
@@ -57,7 +57,7 @@ func auth(id, key string) (string, error) {
 		return "", errors.New("请输入密码")
 	}
 
-	pwd := Md5(key, user.Salt)
+	pwd := encrypt(key, user.Salt)
 
 	if pwd != user.Pwd {
 		return "", errors.New("密码错误")

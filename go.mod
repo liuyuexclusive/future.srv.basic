@@ -9,4 +9,5 @@ require (
 	github.com/jinzhu/gorm v1.9.11
 	github.com/liuyuexclusive/utils v1.0.10
 	github.com/micro/go-micro v1.14.0
+	github.com/sirupsen/logrus v1.4.2
 )

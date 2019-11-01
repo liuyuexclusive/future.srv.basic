@@ -31,5 +31,7 @@ func (s *start) Start(service micro.Service) {
 
 // main
 func main() {
-	srvutil.Startup("go.micro.srv.basic", new(start))
+	srvutil.Startup("go.micro.srv.basic", new(start), func(option *srvutil.Options) {
+		option.IsLogToES = true
+	})
 }

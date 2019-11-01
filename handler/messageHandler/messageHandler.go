@@ -2,7 +2,7 @@ package messageHandler
 
 import (
 	"context"
-	"fmt"
+
 	"github.com/liuyuexclusive/future.srv.basic/model"
 	message "github.com/liuyuexclusive/future.srv.basic/proto/message"
 	"github.com/liuyuexclusive/utils/dbutil"
@@ -29,7 +29,6 @@ func (e *Handler) Send(ctx context.Context, req *message.SendRequest, rsp *messa
 				messageToList = append(messageToList, model.MessageTo{To: v.Name, Status: uint(message.ChangeStatusRequest_Unread)})
 			}
 		}
-		fmt.Println(messageToList)
 		message := &model.Message{From: req.From, Title: req.Title, Content: req.Content, MessageToList: messageToList}
 		db.Create(&message)
 		return nil
