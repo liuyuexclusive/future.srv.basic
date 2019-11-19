@@ -1,4 +1,4 @@
 FROM alpine
 ADD future.srv.basic /future.srv.basic
-ADD appconfig.json /appconfig.json
+ADD appconfig.yml /appconfig.yml
 ENTRYPOINT [ "/future.srv.basic"]
