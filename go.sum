@@ -485,6 +485,8 @@ github.com/liuyuexclusive/utils v1.2.0 h1:JnebGtK3DQ5kKudvCIffZvApAWu6sRkYiiQkib
 github.com/liuyuexclusive/utils v1.2.0/go.mod h1:uZnfetSER5f5yIQZRAlYA72NVl72KFkPuagEgrmsEXM=
 github.com/liuyuexclusive/utils v1.2.1 h1:5WrIB/jQN9bHXi8C9A4GpH9N6EGDBIlnYLKwpCifTsY=
 github.com/liuyuexclusive/utils v1.2.1/go.mod h1:uZnfetSER5f5yIQZRAlYA72NVl72KFkPuagEgrmsEXM=
+github.com/liuyuexclusive/utils v1.2.2 h1:eC74A+8poiJm7s3YY/irkEj2J4V3ku1pPLhu4D0x/pA=
+github.com/liuyuexclusive/utils v1.2.2/go.mod h1:uZnfetSER5f5yIQZRAlYA72NVl72KFkPuagEgrmsEXM=
 github.com/lucas-clemente/quic-go v0.12.1 h1:BPITli+6KnKogtTxBk2aS4okr5dUHz2LtIDAP1b8UL4=
 github.com/lucas-clemente/quic-go v0.12.1/go.mod h1:UXJJPE4RfFef/xPO5wQm0tITK8gNfqwTxjbE7s3Vb8s=
 github.com/lucas-clemente/quic-go v0.13.1/go.mod h1:Vn3/Fb0/77b02SGhQk36KzOUmXgVpFfizUfW5WMaqyU=

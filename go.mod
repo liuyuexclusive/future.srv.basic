@@ -12,7 +12,7 @@ require (
 	github.com/golang/protobuf v1.3.4
 	github.com/jinzhu/gorm v1.9.12
 	github.com/json-iterator/go v1.1.9 // indirect
-	github.com/liuyuexclusive/utils v1.2.1
+	github.com/liuyuexclusive/utils v1.2.2
 	github.com/lucas-clemente/quic-go v0.15.2 // indirect
 	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/micro/go-micro v1.18.0
