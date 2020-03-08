@@ -33,6 +33,6 @@ func (s *start) Start(service micro.Service) {
 func main() {
 	srvutil.Startup("go.micro.srv.basic", new(start), func(option *srvutil.Options) {
 		option.IsLogToES = false
-		option.IsTrace = true
+		option.IsTrace = false
 	})
 }
