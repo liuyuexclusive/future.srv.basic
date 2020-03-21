@@ -31,6 +31,13 @@ func (s *start) Start(service micro.Service) {
 
 // main
 func main() {
+	// http.HandleFunc("/metrics", func(rw http.ResponseWriter, r *http.Request) {
+	// 	fmt.Printf("prometheus request %s\n", time.Now())
+	// 	promhttp.Handler().ServeHTTP(rw, r)
+	// })
+	// go func() {
+	// 	http.ListenAndServe(":9999", nil)
+	// }()
 	srvutil.Startup("go.micro.srv.basic", new(start), func(option *srvutil.Options) {
 		option.IsLogToES = false
 		option.IsTrace = false
