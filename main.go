@@ -7,7 +7,7 @@ import (
 
 	"github.com/liuyuexclusive/utils/srvutil"
 
-	"github.com/micro/go-micro"
+	micro "github.com/micro/go-micro/v2"
 
 	message "github.com/liuyuexclusive/future.srv.basic/proto/message"
 	role "github.com/liuyuexclusive/future.srv.basic/proto/role"
