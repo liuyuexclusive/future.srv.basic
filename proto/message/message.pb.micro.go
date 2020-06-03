@@ -5,14 +5,13 @@ package go_micro_srv_basic_message
 
 import (
 	fmt "fmt"
-	math "math"
-
 	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
+import (
 	context "context"
-
 	client "github.com/micro/go-micro/v2/client"
-
 	server "github.com/micro/go-micro/v2/server"
 )
 

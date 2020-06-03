@@ -1,9 +1,12 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/liuyuexclusive/future.srv.basic/handler/messageHandler"
 	"github.com/liuyuexclusive/future.srv.basic/handler/roleHandler"
 	"github.com/liuyuexclusive/future.srv.basic/handler/userHandler"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/liuyuexclusive/utils/srvutil"
 
@@ -18,6 +21,7 @@ type start struct {
 }
 
 func (s *start) Start(service micro.Service) {
+	service.Options()
 	// Register Handler
 	user.RegisterUserHandler(service.Server(), new(userHandler.Handler))
 	role.RegisterRoleHandler(service.Server(), new(roleHandler.Handler))
@@ -31,6 +35,9 @@ func (s *start) Start(service micro.Service) {
 
 // main
 func main() {
+
+	go StartMonitor()
+
 	// http.HandleFunc("/metrics", func(rw http.ResponseWriter, r *http.Request) {
 	// 	fmt.Printf("prometheus request %s\n", time.Now())
 	// 	promhttp.Handler().ServeHTTP(rw, r)
@@ -41,5 +48,13 @@ func main() {
 	srvutil.Startup("go.micro.srv.basic", new(start), func(option *srvutil.Options) {
 		option.IsLogToES = false
 		option.IsTrace = false
+		option.IsMonitor = false
 	})
+
+}
+
+func StartMonitor() error {
+	http.Handle("/metrics", promhttp.Handler())
+	err := http.ListenAndServe(":8888", nil)
+	return err
 }

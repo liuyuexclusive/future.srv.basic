@@ -9,8 +9,10 @@ service User {
 }
 
 message AuthRequest{
-	string id = 1;
-	string key = 2;	
+	//id（账号）
+	string id = 1; 
+	//key (token)
+	string key = 2;
 }
 
 message AuthResponse{
