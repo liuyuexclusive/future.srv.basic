@@ -8,7 +8,7 @@ import (
 	"github.com/liuyuexclusive/future.srv.basic/handler/userHandler"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/liuyuexclusive/utils/srvutil"
+	"github.com/liuyuexclusive/utils/srv"
 
 	micro "github.com/micro/go-micro/v2"
 
@@ -45,7 +45,7 @@ func main() {
 	// go func() {
 	// 	http.ListenAndServe(":9999", nil)
 	// }()
-	srvutil.Startup("go.micro.srv.basic", new(start), func(option *srvutil.Options) {
+	srv.Startup("go.micro.srv.basic", new(start), func(option *srv.Options) {
 		option.IsLogToES = false
 		option.IsTrace = false
 		option.IsMonitor = false

@@ -10,7 +10,7 @@ import (
 
 	"github.com/liuyuexclusive/future.srv.basic/model"
 	user "github.com/liuyuexclusive/future.srv.basic/proto/user"
-	"github.com/liuyuexclusive/utils/dbutil"
+	"github.com/liuyuexclusive/utils/db"
 	"github.com/sirupsen/logrus"
 
 	"github.com/dgrijalva/jwt-go"
@@ -41,7 +41,7 @@ func auth(id, key string) (string, error) {
 
 	var user model.User
 
-	err := dbutil.Open(func(db *gorm.DB) error {
+	err := db.Open(func(db *gorm.DB) error {
 		db.Where("name=?", id).First(&user)
 		return nil
 	})
@@ -109,7 +109,7 @@ func (e *Handler) Validate(ctx context.Context, req *user.ValidateRequest, rsp *
 }
 
 func (e *Handler) Get(ctx context.Context, req *user.GetRequest, rsp *user.GetResponse) error {
-	return dbutil.Open(func(db *gorm.DB) error {
+	return db.Open(func(db *gorm.DB) error {
 		var user model.User
 		db.Where("name=?", req.Name).First(&user)
 		if user.ID == 0 {
