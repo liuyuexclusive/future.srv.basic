@@ -8,7 +8,6 @@ import (
 	"github.com/liuyuexclusive/utils/db"
 
 	"github.com/ahmetb/go-linq"
-	"github.com/jinzhu/gorm"
 )
 
 type Handler struct {
@@ -16,7 +15,7 @@ type Handler struct {
 }
 
 func (e *Handler) Send(ctx context.Context, req *message.SendRequest, rsp *message.Response) error {
-	return db.Open(func(db *gorm.DB) error {
+	return db.Open(func(db *db.DB) error {
 		messageToList := make([]model.MessageTo, 0)
 		if len(req.ToList) > 0 {
 			for _, v := range req.ToList {
@@ -35,7 +34,7 @@ func (e *Handler) Send(ctx context.Context, req *message.SendRequest, rsp *messa
 	})
 }
 func (e *Handler) ChangeStatus(ctx context.Context, req *message.ChangeStatusRequest, rsp *message.Response) error {
-	return db.Open(func(db *gorm.DB) error {
+	return db.Open(func(db *db.DB) error {
 		if req.Id != 0 {
 			db.Model(model.MessageTo{}).Where("id=?", req.Id).Update(model.MessageTo{Status: uint(req.Status)})
 		} else {
@@ -46,7 +45,7 @@ func (e *Handler) ChangeStatus(ctx context.Context, req *message.ChangeStatusReq
 }
 
 func (e *Handler) Init(ctx context.Context, req *message.InitRequest, rsp *message.InitResponse) error {
-	return db.Open(func(db *gorm.DB) error {
+	return db.Open(func(db *db.DB) error {
 		var listAll []model.MessageTo
 		db.Preload("Message").Where("`to`=?", req.To).Find(&listAll)
 		rsp.To = req.To
@@ -69,7 +68,7 @@ func (e *Handler) Init(ctx context.Context, req *message.InitRequest, rsp *messa
 }
 
 func (e *Handler) Get(ctx context.Context, req *message.GetRequest, rsp *message.GetResponse) error {
-	return db.Open(func(db *gorm.DB) error {
+	return db.Open(func(db *db.DB) error {
 		var messageTo model.MessageTo
 		db.Preload("Message").First(&messageTo)
 		rsp.Id = int64(messageTo.ID)

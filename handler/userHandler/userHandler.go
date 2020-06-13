@@ -14,7 +14,6 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/jinzhu/gorm"
 )
 
 type Handler struct {
@@ -41,7 +40,7 @@ func auth(id, key string) (string, error) {
 
 	var user model.User
 
-	err := db.Open(func(db *gorm.DB) error {
+	err := db.Open(func(db *db.DB) error {
 		db.Where("name=?", id).First(&user)
 		return nil
 	})
@@ -109,7 +108,7 @@ func (e *Handler) Validate(ctx context.Context, req *user.ValidateRequest, rsp *
 }
 
 func (e *Handler) Get(ctx context.Context, req *user.GetRequest, rsp *user.GetResponse) error {
-	return db.Open(func(db *gorm.DB) error {
+	return db.Open(func(db *db.DB) error {
 		var user model.User
 		db.Where("name=?", req.Name).First(&user)
 		if user.ID == 0 {
