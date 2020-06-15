@@ -1,9 +1,9 @@
-ETCDAddress: 192.168.0.102:2379
-NatsAddress: 192.168.0.102:4222
-ElasticURL: http://192.168.0.102:9200
-HostIP: 192.168.0.102
+ETCDAddress: 49.232.166.55:2379
+NatsAddress: 49.232.166.55:4222
+ElasticURL: http://49.232.166.55:9200
+HostIP: 49.232.166.55
 APIPort: 9000
-# ConnStr: root:AddaFhmn413431@tcp(192.168.0.102:3306)/future?charset=utf8&parseTime=True&loc=Local
-ConnStr: root:123456@tcp(192.168.0.102:3306)/future?charset=utf8&parseTime=True&loc=Local
-RedisAddress: 192.168.0.102:6379
-JaegerAddress: 192.168.0.102:6831
+# ConnStr: root:AddaFhmn413431@tcp(49.232.166.55:3306)/future?charset=utf8&parseTime=True&loc=Local
+ConnStr: root:123456@tcp(49.232.166.55:3306)/future?charset=utf8&parseTime=True&loc=Local
+RedisAddress: 49.232.166.55:6379
+JaegerAddress: 49.232.166.55:6831

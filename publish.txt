@@ -4,7 +4,7 @@ docker build . -t registry.cn-shenzhen.aliyuncs.com/liuyuexclusive/{{.ProjectNam
 docker push registry.cn-shenzhen.aliyuncs.com/liuyuexclusive/{{.ProjectName}}.{{.Type}}.{{.AppName}}:{{.Version}}
 ssh root@{{.Host}} "
 docker pull registry.cn-shenzhen.aliyuncs.com/liuyuexclusive/{{.ProjectName}}.{{.Type}}.{{.AppName}}:{{.Version}}
-docker stop future.{{.Type}}.basic_1
-docker rm future.{{.Type}}.basic_1
-docker run -d --network=future_default --name=future.{{.Type}}.basic_1 registry.cn-shenzhen.aliyuncs.com/liuyuexclusive/{{.ProjectName}}.{{.Type}}.{{.AppName}}:{{.Version}}
+docker stop future.{{.Type}}.{{.AppName}}_1
+docker rm future.{{.Type}}.{{.AppName}}_1
+docker run -d --network=root_default --name=future.{{.Type}}.{{.AppName}}_1 registry.cn-shenzhen.aliyuncs.com/liuyuexclusive/{{.ProjectName}}.{{.Type}}.{{.AppName}}:{{.Version}}
 "
