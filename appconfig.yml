@@ -1,9 +1,9 @@
-ETCDAddress: 49.232.166.55:2379
-NatsAddress: 49.232.166.55:4222
-ElasticURL: http://49.232.166.55:9200
-HostIP: 49.232.166.55
-APIPort: 9000
-# ConnStr: root:AddaFhmn413431@tcp(49.232.166.55:3306)/future?charset=utf8&parseTime=True&loc=Local
-ConnStr: root:123456@tcp(49.232.166.55:3306)/future?charset=utf8&parseTime=True&loc=Local
-RedisAddress: 49.232.166.55:6379
-JaegerAddress: 49.232.166.55:6831
+apiport: "9000"
+connstr: host=192.168.31.201 port=5432 password=123456 sslmode=disable user=postgres dbname=future
+elasticurl: http://192.168.31.201:9200
+etcdaddress: 192.168.31.201:2379
+hostip: 192.168.31.201
+jaegeraddress: 192.168.31.201:6831
+name: test
+natsaddress: 192.168.31.201:4222
+redisaddress: 192.168.31.201:6379

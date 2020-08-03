@@ -6,14 +6,12 @@ import (
 	"encoding/hex"
 	"errors"
 	"strings"
-	"time"
 
 	"github.com/liuyuexclusive/future.srv.basic/model"
 	user "github.com/liuyuexclusive/future.srv.basic/proto/user"
 	"github.com/liuyuexclusive/utils/db"
+	"github.com/liuyuexclusive/utils/jwt"
 	"github.com/sirupsen/logrus"
-
-	"github.com/dgrijalva/jwt-go"
 )
 
 type Handler struct {
@@ -32,12 +30,6 @@ func encrypt(s string, salt string) string {
 }
 
 func auth(id, key string) (string, error) {
-	mySigningKey := []byte(mySigningKey)
-
-	if id == "" {
-		return "", errors.New("无效的id")
-	}
-
 	var user model.User
 
 	err := db.Open(func(db *db.DB) error {
@@ -57,27 +49,14 @@ func auth(id, key string) (string, error) {
 		return "", errors.New("请输入密码")
 	}
 
-	pwd := encrypt(key, user.Salt)
+	pwd := jwt.Sha256(key, user.Salt)
 
 	if pwd != user.Pwd {
 		logrus.Error("密码错误:" + pwd)
 		return "", errors.New("密码错误")
 	}
 
-	// Create the Claims
-	claims := &jwt.StandardClaims{
-		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
-		Issuer:    "test",
-		Id:        id,
-	}
-
-	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString(mySigningKey)
-
-	if err != nil {
-		return "", err
-	}
-
-	return token, nil
+	return jwt.GetToken(id)
 }
 
 func (e *Handler) Auth(ctx context.Context, req *user.AuthRequest, rsp *user.AuthResponse) error {
@@ -90,17 +69,10 @@ func (e *Handler) Auth(ctx context.Context, req *user.AuthRequest, rsp *user.Aut
 }
 
 func (e *Handler) Validate(ctx context.Context, req *user.ValidateRequest, rsp *user.ValidateResponse) error {
-	var claims jwt.MapClaims
-	token, err := jwt.ParseWithClaims(req.Token, &claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(mySigningKey), nil
-	})
+	claims, err := jwt.GetClaims(req.Token)
 
 	if err != nil {
 		return err
-	}
-
-	if !token.Valid {
-		return errors.New("无效token")
 	}
 
 	rsp.Name = claims["jti"].(string)
